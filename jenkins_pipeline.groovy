@@ -17,8 +17,8 @@ node {
             }  
         }
 
-        stage ('Build') {
-            echo 'Compiling software'
+        stage ('Compile') {
+            sh 'gcc -Wall test-code/hello.c -o test-code/hello'
         }
 
         // scripted parallel
@@ -28,6 +28,7 @@ node {
             },
             "integration test 2": {
                 echo 'Running integration test 2'
+                sh 'test-code/hello'
             },
             "ui tests": {
                 echo 'Running UI functional tests'
