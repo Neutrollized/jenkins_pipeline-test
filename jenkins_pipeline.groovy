@@ -33,29 +33,6 @@ node {
                 echo 'Running UI functional tests'
             }
         }
-
-/* 
-        // declarative parallel?
-        stage ('Parallel stage') {
-            parallel {
-                stage ('Run integration test 1') {
-                    steps {
-                        echo 'Running test 1'
-                    }
-                }
-                stage ('Run integration test 2') {
-                    steps {
-                        echo 'Running test 2'
-                    }
-                }
-                stage ('Run UI functional tests') {
-                    steps {
-                        echo 'Running test 3'
-                    }
-                }
-            }
-        }
-*/
     }
     catch (err) {
         echo "\u27A1 Caught: ${err}"
