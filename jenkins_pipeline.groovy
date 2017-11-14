@@ -17,18 +17,27 @@ node {
             }  
         }
 
-        stage ('Compile') {
-            sh 'gcc -Wall test-code/hello.c -o test-code/hello'
+        stage ('Compile C') {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                sh 'gcc -Wall test-code/hello.c -o test-code/hello'
+            }
+        }
+
+        stage ('Compile Go') {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                sh 'go build test-code/hello-world.go'
+            }
         }
 
         // scripted parallel
         stage ('Parallel stage') {
             parallel "integration test 1": {
-                echo 'Running integration test 1'
+                echo 'Running integration test 1 (C)'
+                sh 'test-code/hello'
             },
             "integration test 2": {
-                echo 'Running integration test 2'
-                sh 'test-code/hello'
+                echo 'Running integration test 2 (Go)'
+                sh 'test-code/hello-world'
             },
             "ui tests": {
                 echo 'Running UI functional tests'
