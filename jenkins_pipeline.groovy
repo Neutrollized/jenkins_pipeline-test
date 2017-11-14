@@ -25,7 +25,7 @@ node {
 
         stage ('Compile Go') {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                sh 'go build test-code/hello-world.go'
+                sh 'go build -o ./test-code/hello-world ./test-code/hello-world.go'
             }
         }
 
