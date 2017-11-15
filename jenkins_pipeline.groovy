@@ -30,13 +30,11 @@ node {
         }
 
         // scripted parallel
-        stage ('Parallel stage') {
+        stage ('Parallel testing stage') {
             parallel "integration test 1": {
-                echo 'Running integration test 1 (C)'
                 sh 'test-code/hello'
             },
             "integration test 2": {
-                echo 'Running integration test 2 (Go)'
                 sh 'test-code/hello-world'
             },
             "ui tests": {
