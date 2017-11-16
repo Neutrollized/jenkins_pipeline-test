@@ -33,9 +33,9 @@ node {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
 		// change to subdirectory and execute commands within it
                 dir ('test-code/angular-realworld-example-app/') {
-                    sh 'ng serve'
 		    sh 'npm install'
                     sh 'ng build'
+                    sh 'ng serve'
 		}
             }
         }
