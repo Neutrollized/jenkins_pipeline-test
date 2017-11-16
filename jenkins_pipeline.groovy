@@ -5,7 +5,6 @@ node('docker') {
             echo "\u27A1 Begins here..."
             stage ('Clean workspace') {
                 deleteDir()
-                sh 'pwd'
                 sh 'ls -lah'
             }
 
@@ -29,9 +28,12 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/ng:1.1.0').inside {
+	def angular = docker.image('neutrollized/ng:1.1.0')
+        angular.inside() {
 	    stage ('Doing stuff within docker image') {
 		sh 'hostname'
+	    }
+	    stage ('doing more stuff') {
 		sh 'pwd'
 	    }
 	}
