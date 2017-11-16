@@ -35,7 +35,6 @@ node {
                 dir ('test-code/angular-realworld-example-app/') {
 		    sh 'npm install'
                     sh 'ng build'
-                    sh 'ng serve'
 		}
             }
         }
@@ -49,7 +48,9 @@ node {
                 sh 'test-code/hello-world'
             },
             "ui tests": {
-                echo 'Running UI functional tests'
+                dir ('test-code/angular-realworld-example-app/') {
+                    sh 'ng serve'
+		}
             }
         }
     }
