@@ -41,9 +41,9 @@ node {
 
         stage ('Unit tests') {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-		sh 'export CHROME_BIN=/usr/bin/chromium-browser'
                 dir ('test-code/angular-realworld-example-app/') {
 		    sh 'npm install karma'
+		    sh 'export CHROME_BIN=/usr/bin/chromium-browser'
                     sh 'ng test'
 		}
             }
