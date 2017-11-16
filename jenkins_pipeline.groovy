@@ -39,6 +39,15 @@ node {
             }
         }
 
+        stage ('Unit tests') {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                dir ('test-code/angular-realworld-example-app/') {
+		    sh 'npm install karma'
+                    sh 'ng test'
+		}
+            }
+        }
+
         // scripted parallel
         stage ('Parallel testing stage') {
             parallel "integration test 1": {
@@ -48,9 +57,7 @@ node {
                 sh 'test-code/hello-world'
             },
             "ui tests": {
-                dir ('test-code/angular-realworld-example-app/') {
-                    sh 'ng serve'
-		}
+		sh 'echo stuff here'
             }
         }
     }
