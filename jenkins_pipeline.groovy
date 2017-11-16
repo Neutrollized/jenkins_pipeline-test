@@ -28,13 +28,12 @@ node('docker') {
             }
         }
 
-	def angular = docker.image('neutrollized/ng:1.1.0')
-        angular.inside() {
+	docker.image('neutrollized/ng:1.1.0').inside {
 	    stage ('Doing stuff within docker image') {
-		sh 'hostname'
-	    }
-	    stage ('doing more stuff') {
-		sh 'pwd'
+                dir ('test-code/angular-realworld-example-app/') {
+		    sh 'npm install'
+                    sh 'ng build'
+		}
 	    }
 	}
 
