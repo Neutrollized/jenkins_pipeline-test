@@ -31,10 +31,10 @@ node {
 
         stage ('Compile Angular') {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                dir ('test-code/angular-realworld-example-app/')
-    		    sh 'pwd'
+                dir ('test-code/angular-realworld-example-app/') {
 		    sh 'npm install'
                     sh 'ng build'
+		}
             }
         }
 
