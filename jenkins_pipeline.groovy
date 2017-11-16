@@ -31,6 +31,8 @@ node {
 
         stage ('Compile Angular') {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                sh 'ng serve'
+		// change to subdirectory and execute commands within it
                 dir ('test-code/angular-realworld-example-app/') {
 		    sh 'npm install'
                     sh 'ng build'
