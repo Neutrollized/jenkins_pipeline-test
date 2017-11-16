@@ -30,7 +30,7 @@ node('docker') {
 
 	docker.image('neutrollized/ng:1.1.0').inside {
 	    stage ('Doing stuff within docker image') {
-	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build''
+	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
 	}
 
