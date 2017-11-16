@@ -1,4 +1,4 @@
-node {
+node('docker') {
     try {
         // requires AnsiColor plugin
         wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
@@ -29,25 +29,33 @@ node {
             }
         }
 
-        stage ('Compile Angular') {
-            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-		// change to subdirectory and execute commands within it
-                dir ('test-code/angular-realworld-example-app/') {
-		    sh 'npm install'
-                    sh 'ng build'
-		}
-            }
-        }
+	docker.image('neutrollized/ng:1.1.0').inside {
+	    stage ('Doing stuff within docker image') {
+		sh 'hostname'
+		sh 'pwd'
+	    }
+	}
 
-        stage ('Unit tests') {
-            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                dir ('test-code/angular-realworld-example-app/') {
-		    sh 'npm install karma'
-		    sh 'export CHROME_BIN=/usr/bin/chromium-browser'
-                    sh 'ng test'
-		}
-            }
-        }
+
+#        stage ('Compile Angular') {
+#            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+#		// change to subdirectory and execute commands within it
+#                dir ('test-code/angular-realworld-example-app/') {
+#		    sh 'npm install'
+#                   sh 'ng build'
+#		}
+#            }
+#        }
+
+#        stage ('Unit tests') {
+#            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+#                dir ('test-code/angular-realworld-example-app/') {
+#		    sh 'npm install karma'
+#		    sh 'export CHROME_BIN=/usr/bin/chromium-browser'
+#                    sh 'ng test'
+#		}
+#            }
+#        }
 
         // scripted parallel
         stage ('Parallel testing stage') {
