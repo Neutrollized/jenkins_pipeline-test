@@ -29,6 +29,14 @@ node {
             }
         }
 
+        stage ('Compile Angular') {
+            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+                sh 'cd test-code/angular-realworld-example-app'
+		sh 'npm install'
+                sh 'ng build'
+            }
+        }
+
         // scripted parallel
         stage ('Parallel testing stage') {
             parallel "integration test 1": {
