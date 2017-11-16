@@ -37,7 +37,7 @@ node('docker') {
                     sh 'pwd'
             	},
                 "docker test 2": {
-                    sh 'whoami'
+                    sh 'date'
             	},
             	"docker test 3": {
 		    sh 'hostname'
