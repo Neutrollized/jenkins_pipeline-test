@@ -31,6 +31,7 @@ node {
 
         stage ('Compile Angular') {
             wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
+		sh 'ls -l'
                 sh 'cd test-code/angular-realworld-example-app'
     		sh 'pwd'
 		sh 'npm install'
