@@ -29,9 +29,20 @@ node('docker') {
         }
 
 	docker.image('neutrollized/ng:1.1.0').inside {
-	    stage ('Doing stuff within docker image') {
+	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
+            stage ('Parallel testing within docker container') {
+            	parallel "docker test 1": {
+                    sh 'pwd'
+            	},
+                "docker test 2": {
+                    sh 'whoami'
+            	},
+            	"docker test 3": {
+		    sh 'hostname'
+            	}
+            }
 	}
 
 /*
