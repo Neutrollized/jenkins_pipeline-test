@@ -28,13 +28,14 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/ng:1.1.0').inside {
+	angularcli = docker.image('neutrollized/ng:1.1.0')
+	angularcli.inside('-v ${workspace}/test-code/angular-realworld-example-app:/mnt') {
 	    stage ('Compiling project within docker container') {
-	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
+	    	sh 'npm install && ng build'
 	    }
 	    stage ('Unit test') {
 		sh 'npm install karma'
-		sh 'cd test-code/angular-realworld-example-app && ng test'
+		sh 'ng test'
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker test 1": {
