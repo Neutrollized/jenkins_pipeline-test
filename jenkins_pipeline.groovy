@@ -40,10 +40,11 @@ node('docker') {
 		sh 'cd test-code/angular-realworld-example-app && ng test --watch=false --browsers ChromeHeadless'
             }
 */
+/* no need to start ng serve for ng e2e
 	    stage ('Start ng serve') {
 		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
-		sh 'sleep 30'
             }
+*/
             stage ('Parallel testing within docker container') {
             	parallel "docker e2e test 1": {
                     sh 'cd test-code/angular-realworld-example-app && npm install protractor && ng e2e'
