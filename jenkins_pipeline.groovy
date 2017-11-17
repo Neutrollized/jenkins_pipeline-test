@@ -29,7 +29,7 @@ node('docker') {
         }
 
 	angularcli = docker.image('neutrollized/ng:1.1.0')
-	angularcli.inside("-v ${workspace}/test-code/angular-realworld-example-app:/mnt") {
+	angularcli.inside("-v ${workspace}/test-code/angular-realworld-example-app:/mnt -w /mnt") {
 	    stage ('Compiling project within docker container') {
 	    	sh 'npm install && ng build'
 	    }
