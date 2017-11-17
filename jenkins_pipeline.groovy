@@ -32,13 +32,15 @@ node('docker') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
+/*
 	    stage ('Unit test') {
-//		sh 'cd test-code/angular-realworld-example-app && npm install karma'
 		sh 'npm install karma'
 		sh 'cd test-code/angular-realworld-example-app && ng test --watch=false --browsers ChromeHeadless'
             }
+*/
 	    stage ('Start ng serve') {
-		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check'
+		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
+		sh 'sleep 30'
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker e2e test 1": {
