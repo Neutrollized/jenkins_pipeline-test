@@ -28,7 +28,7 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/chromium-xvbf-ng:1.1.0').inside('--net=host') {
+	docker.image('neutrollized/chromium-xvfb-ng:1.1.0').inside('--net=host') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
