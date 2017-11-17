@@ -43,8 +43,8 @@ node('docker') {
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker e2e test 1": {
-//                    sh 'npm install protractor'
-                    sh 'cd test-code/angular-realworld-example-app && npm install protractor && ng e2e'
+                    sh 'cd test-code/angular-realworld-example-app && npm install protractor && webdriver-manager update'
+                    sh 'cd test-code/angular-realworld-example-app && ng e2e'
             	},
                 "docker test 2": {
                     sh 'date'
