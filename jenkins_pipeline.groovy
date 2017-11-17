@@ -28,12 +28,14 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/chromium-xvfb-ng:1.1.0').inside('-p 4200:4200 -p 9876:9876 -p 49152:49152') {
+	docker.image('neutrollized/chromium-headless-ng:1.1.0').inside('-p 4200:4200 -p 9876:9876 -p 49152:49152') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
 	    stage ('Unit test') {
-		sh 'cd test-code/angular-realworld-example-app && ng test'
+//		sh 'cd test-code/angular-realworld-example-app && npm install karma'
+		sh 'npm install karma'
+		sh 'cd test-code/angular-realworld-example-app && ng test --watch=false --browsers ChromeHeadless'
             }
 	    stage ('Start ng serve') {
 		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check'
@@ -50,28 +52,6 @@ node('docker') {
             	}
             }
 	}
-
-/*
-        stage ('Compile Angular') {
-            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-		// change to subdirectory and execute commands within it
-                dir ('test-code/angular-realworld-example-app/') {
-		    sh 'npm install'
-                   sh 'ng build'
-		}
-            }
-        }
-
-        stage ('Unit tests') {
-            wrap([$class: 'AnsiColorBuildWrapper', 'colorMapName': 'xterm']) {
-                dir ('test-code/angular-realworld-example-app/') {
-  	    	    sh 'npm install karma'
-	    	    sh 'export CHROME_BIN=/usr/bin/chromium-browser'
-                    sh 'ng test'
-		}
-            }
-        }
-*/
 
         // scripted parallel
         stage ('Parallel testing stage') {
