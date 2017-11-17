@@ -38,7 +38,7 @@ node('docker') {
             }
 */
 	    stage ('Start ng serve') {
-		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
+		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check'
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker e2e test 1": {
