@@ -32,16 +32,18 @@ node('docker') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
+/*
 	    stage ('Unit test') {
-                sh 'npm install -g karma'
+                sh 'npm install karma'
 		sh 'cd test-code/angular-realworld-example-app && ng test'
             }
+*/
 	    stage ('Start ng serve') {
 		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker e2e test 1": {
-                    sh 'npm install -g protractor'
+                    sh 'npm install protractor'
                     sh 'cd test-code/angular-realworld-example-app && npm e2e'
             	},
                 "docker test 2": {
