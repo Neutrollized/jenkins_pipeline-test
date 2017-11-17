@@ -33,7 +33,7 @@ node('docker') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
 	    stage ('Start ng serve') {
-		sh "cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0"
+		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check'
             }
             stage ('Parallel testing within docker container') {
             	parallel "docker test 1": {
