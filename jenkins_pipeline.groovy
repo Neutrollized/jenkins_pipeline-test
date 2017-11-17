@@ -32,11 +32,9 @@ node('docker') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
-/*
 	    stage ('Unit test') {
 		sh 'cd test-code/angular-realworld-example-app && ng test'
             }
-*/
 	    stage ('Start ng serve') {
 		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check'
             }
