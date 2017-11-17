@@ -28,13 +28,15 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/chromium-xvfb-ng:1.1.0').inside('--net=host') {
+	docker.image('neutrollized/chromium-xvfb-ng:1.1.0').inside('-p 4200:4200 -p 9876:9876 -p 49152:49152') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
+/*
 	    stage ('Unit test') {
 		sh 'cd test-code/angular-realworld-example-app && ng test'
             }
+*/
 	    stage ('Start ng serve') {
 		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
             }
