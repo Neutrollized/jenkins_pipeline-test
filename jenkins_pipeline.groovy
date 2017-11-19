@@ -1,7 +1,7 @@
 //@Library('github.com/Neutrollized/shared-jenkins-library@master')
 
 //vars
-if (!env.ANGULARCLI_IMAGE}) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
+if (!env.ANGULARCLI_IMAGE) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
 if (!env.ANGULARCLI_VER) {env.ANGULARCLI_VER = '1.1.0'}
 // Mandatory Jenkinsfile vars
 //if (!env.BUILD_REPO) {error 'BUILD_REPO must be defined in Jenkinsfile environment.'}
