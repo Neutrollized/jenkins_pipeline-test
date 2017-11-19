@@ -47,7 +47,7 @@ node('docker') {
 
 	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
-	    	sh "cd test-code/angular-realworld-example-app && npm install @angular/cli@${env.ANGULARCLI_VER} && ng build ${env.BUILD_OPTS}"
+	    	sh "cd test-code/angular-realworld-example-app && npm install ${NPM_OPTS} && ng build ${env.BUILD_OPTS}"
 	    }
 	    stage ('Karma Unit test') {
 		sh "npm install ${env.NPM_OPTS} karma"
