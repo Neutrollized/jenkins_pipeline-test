@@ -52,7 +52,7 @@ node('docker') {
 	    	sh """
 		    cd test-code/angular-realworld-example-app
                     npm install ${env.NPM_OPTS}
-		    whoami
+		    alias ng="~jenkins/.npm/lib/node_modules/angular-cli/bin/ng"
 		    ng --version
 		    ng build ${env.BUILD_OPTS}
 		"""	
