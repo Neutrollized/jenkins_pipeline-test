@@ -49,13 +49,13 @@ node('docker') {
 	    stage ('Compiling project within docker container') {
 		// npm install will install all the dependencies as defined in packages.json
 		// under the project directory
-	    	sh ```
+	    	sh """
 		    cd test-code/angular-realworld-example-app
                     npm install ${env.NPM_OPTS}
 		    whoami
 		    ng --version
 		    ng build ${env.BUILD_OPTS}
-		```
+		"""	
 	    }
 	    stage ('Karma Unit test') {
 		sh "npm install ${env.NPM_OPTS} karma"
