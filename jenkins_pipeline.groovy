@@ -51,7 +51,7 @@ node('docker') {
 		// under the project directory
 	    	sh ```
 		    cd test-code/angular-realworld-example-app
-                    npm install ${NPM_OPTS}
+                    npm install ${env.NPM_OPTS}
 		    whoami
 		    ng --version
 		    ng build ${env.BUILD_OPTS}
