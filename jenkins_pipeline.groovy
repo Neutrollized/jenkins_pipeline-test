@@ -49,10 +49,11 @@ node('docker') {
 	    stage ('Compiling project within docker container') {
 		// npm install will install all the dependencies as defined in packages.json
 		// under the project directory
+		// github.com/angular/angular-cli/issues/503
 	    	sh """
 		    cd test-code/angular-realworld-example-app
                     npm install ${env.NPM_OPTS}
-		    alias ng="~jenkins/.npm/lib/node_modules/angular-cli/bin/ng"
+		    alias ng="node_modules/angular-cli/bin/ng"
 		    ng --version
 		    ng build ${env.BUILD_OPTS}
 		"""	
