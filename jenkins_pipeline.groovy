@@ -3,8 +3,6 @@
 //vars
 if (!env.ANGULARCLI_IMAGE}) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
 if (!env.ANGULARCLI_VER) {env.ANGULARCLI_VER = '1.1.0'}
-if (!env.KARMA_PORT) {env.KARMA_PORT = '-p 9876:9876'}
-if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 // Mandatory Jenkinsfile vars
 //if (!env.BUILD_REPO) {error 'BUILD_REPO must be defined in Jenkinsfile environment.'}
 
@@ -38,7 +36,7 @@ node('docker') {
             }
         }
 
-	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR.PORT}") {
+	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside('--privileged -p 9876:9876 -p 49152:49152') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
