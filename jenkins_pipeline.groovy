@@ -1,8 +1,8 @@
 //@Library('github.com/Neutrollized/shared-jenkins-library@master')
 
 // docker vars
-if (!env.DOCKER_NODEJS) {env.DOCKER_NODEJS = 'neutrollized/chromium-headless-nodejs'}
-if (!env.NODEJS_VER) {env.NODEJS_VER = '6.11.3'}
+if (!env.DOCKER_ANGULARCLI) {env.DOCKER_ANGULARCLI = 'neutrollized/chromium-headless-ng'}
+if (!env.NG_VER) {env.NG_VER = '1.1.0'}
 if (!env.KARMA_PORT) {env.KARMA_PORT = '-p 9876:9876'}
 if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 
@@ -45,11 +45,11 @@ node('docker') {
             }
         }
 
-	docker.image("${env.DOCKER_NODEJS}:${env.NODEJS_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
+	docker.image("${env.DOCKER_ANGULARCLI}:${env.NG_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
 		// npm install will install all the dependencies as defined in packages.json
 		// under the project directory
-	    	sh "cd test-code/angular-realworld-example-app && npm install ${NPM_OPTS} && ng build ${env.BUILD_OPTS}"
+	    	sh "cd test-code/angular-realworld-example-app && npm install ${NPM_OPTS} && ng --version && ng build ${env.BUILD_OPTS}"
 	    }
 	    stage ('Karma Unit test') {
 		sh "npm install ${env.NPM_OPTS} karma"
