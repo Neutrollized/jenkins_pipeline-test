@@ -53,7 +53,7 @@ node('docker') {
 	    	sh """
 		    cd test-code/angular-realworld-example-app
                     npm install ${env.NPM_OPTS}
-		    alias ng="node_modules/angular-cli/bin/ng"
+		    alias ng="node_modules/@angular/cli/bin/ng"
 		    ng --version
 		    ng build ${env.BUILD_OPTS}
 		"""	
