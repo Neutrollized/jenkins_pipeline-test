@@ -54,7 +54,7 @@ node('docker') {
                     npm install ${NPM_OPTS}
 		    whoami
 		    ng --version
-		    ng build ${env.BUILD_OPTS}"
+		    ng build ${env.BUILD_OPTS}
 		```
 	    }
 	    stage ('Karma Unit test') {
