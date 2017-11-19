@@ -47,6 +47,8 @@ node('docker') {
 
 	docker.image("${env.DOCKER_NODEJS}:${env.NODEJS_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
+		// npm install will install all the dependencies as defined in packages.json
+		// under the project directory
 	    	sh "cd test-code/angular-realworld-example-app && npm install ${NPM_OPTS} && ng build ${env.BUILD_OPTS}"
 	    }
 	    stage ('Karma Unit test') {
