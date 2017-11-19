@@ -1,3 +1,5 @@
+@Library('github.com/Neutrollized/shared-jenkins-library@master')
+
 node('docker') {
     try {
         // requires AnsiColor plugin
@@ -28,7 +30,7 @@ node('docker') {
             }
         }
 
-	docker.image('neutrollized/chromium-headless-ng:1.1.0').inside('--privileged -p 4200:4200 -p 9876:9876 -p 49152:49152') {
+	docker.image('neutrollized/chromium-headless-ng:1.1.0').inside('--privileged -p 9876:9876 -p 49152:49152') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
