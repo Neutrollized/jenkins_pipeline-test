@@ -1,4 +1,4 @@
-@Library('github.com/Neutrollized/shared-jenkins-library@master')
+//@Library('github.com/Neutrollized/shared-jenkins-library@master')
 
 node('docker') {
     try {
