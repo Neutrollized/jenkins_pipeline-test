@@ -5,6 +5,7 @@ if (!env.ANGULARCLI_IMAGE) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headle
 if (!env.ANGULARCLI_VER) {env.ANGULARCLI_VER = '1.1.0'}
 if (!env.KARMA_PORT) {env.KARMA_PORT = '-p 9876:9876'}
 if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
+if (!env.BUILD_OPTS) {env.BUILD_OPTS = '--progress=false'}
 if (!env.TEST_OPTS) {env.TEST_OPTS = '--watch=false --progress=false'}
 if (!env.E2E_OPTS) {env.E2E_OPTS = '--progress=false'}
 // Mandatory Jenkinsfile vars
@@ -42,7 +43,7 @@ node('docker') {
 
 	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
-	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
+	    	sh "cd test-code/angular-realworld-example-app && npm install && ng build ${env.BUILD_OPTS}"
 	    }
 	    stage ('Karma Unit test') {
 		sh 'npm install karma'
