@@ -8,7 +8,7 @@ if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 
 // node/nmp/ng vars
 if (!env.NPM_OPTS) {env.NPM_OPTS = '--silent'}
-if (!env.ANGULAR_CLI) {env.NPM_OPTS = '@angular/cli'}
+if (!env.ANGULAR_CLI) {env.ANGULAR_CLI = '@angular/cli'}
 if (!env.NG_PATH) {env.NG_PATH = "node_modules/${env.ANGULAR_CLI}/bin"}
 if (!env.BUILD_OPTS) {env.BUILD_OPTS = '--progress=false'}
 if (!env.TEST_OPTS) {env.TEST_OPTS = '--progress=false'}
