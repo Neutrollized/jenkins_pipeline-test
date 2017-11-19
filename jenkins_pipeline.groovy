@@ -77,7 +77,7 @@ node('docker') {
 			cd test-code/angular-realworld-example-app
 			npm install ${env.NPM_OPTS} protractor
 			${env.NG_PATH}/ng e2e ${env.E2E_OPTS}
-		    ""
+		    """
             	},
                 "docker test 2": {
                     sh 'date'
