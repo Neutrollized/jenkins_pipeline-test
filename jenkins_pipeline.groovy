@@ -36,7 +36,7 @@ node('docker') {
             }
         }
 
-	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside('--privileged -p 9876:9876 -p 49152:49152') {
+	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
