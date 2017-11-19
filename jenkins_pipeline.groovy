@@ -8,6 +8,8 @@ if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 
 // node/nmp/ng vars
 if (!env.NPM_OPTS) {env.NPM_OPTS = '--silent'}
+if (!env.ANGULAR_CLI) {env.NPM_OPTS = '@angular/cli'}
+if (!env.NG_PATH) {env.NG_PATH = "node_modules/${env.ANGULAR_CLI}/bin"}
 if (!env.BUILD_OPTS) {env.BUILD_OPTS = '--progress=false'}
 if (!env.TEST_OPTS) {env.TEST_OPTS = '--progress=false'}
 if (!env.E2E_OPTS) {env.E2E_OPTS = '--progress=false'}
@@ -53,14 +55,16 @@ node('docker') {
 	    	sh """
 		    cd test-code/angular-realworld-example-app
                     npm install ${env.NPM_OPTS}
-		    alias ng="node_modules/@angular/cli/bin/ng"
-		    ng --version
-		    ng build ${env.BUILD_OPTS}
+		    ${env.NG_PATH}/ng --version
+		    ${env.NG_PATH}/ng build ${env.BUILD_OPTS}
 		"""	
 	    }
 	    stage ('Karma Unit test') {
 		sh "npm install ${env.NPM_OPTS} karma"
-		sh "cd test-code/angular-realworld-example-app && ng test --watch=false ${env.TEST_OPTS} --browsers ChromeHeadless"
+		sh """
+		    cd test-code/angular-realworld-example-app
+		    ${env.NG_PATH}/ng test --watch=false ${env.TEST_OPTS} --browsers ChromeHeadless
+		"""
             }
 /*   no need to start ng serve for ng e2e
 	    stage ('Start ng serve') {
@@ -69,7 +73,11 @@ node('docker') {
 */
             stage ('Parallel testing within docker container') {
             	parallel "Protractor E2E test": {
-                    sh "cd test-code/angular-realworld-example-app && npm install ${env.NPM_OPTS} protractor && ng e2e ${env.E2E_OPTS}"
+                    sh """
+			cd test-code/angular-realworld-example-app
+			npm install ${env.NPM_OPTS} protractor
+			${env.NG_PATH}/ng e2e ${env.E2E_OPTS}
+		    ""
             	},
                 "docker test 2": {
                     sh 'date'
