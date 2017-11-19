@@ -9,7 +9,7 @@ if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 // node/nmp/ng vars
 if (!env.NPM_OPTS) {env.NPM_OPTS = '--silent'}
 if (!env.BUILD_OPTS) {env.BUILD_OPTS = '--progress=false'}
-if (!env.TEST_OPTS) {env.TEST_OPTS = '--watch=false --progress=false'}
+if (!env.TEST_OPTS) {env.TEST_OPTS = '--progress=false'}
 if (!env.E2E_OPTS) {env.E2E_OPTS = '--progress=false'}
 
 // Mandatory Jenkinsfile vars
@@ -47,11 +47,11 @@ node('docker') {
 
 	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
 	    stage ('Compiling project within docker container') {
-	    	sh "cd test-code/angular-realworld-example-app && npm install ${env.NPM_OPTS} && ng build ${env.BUILD_OPTS}"
+	    	sh "cd test-code/angular-realworld-example-app && ng build ${env.BUILD_OPTS}"
 	    }
 	    stage ('Karma Unit test') {
 		sh "npm install ${env.NPM_OPTS} karma"
-		sh "cd test-code/angular-realworld-example-app && ng test ${env.TEST_OPTS} --browsers ChromeHeadless"
+		sh "cd test-code/angular-realworld-example-app && ng test --watch=false ${env.TEST_OPTS} --browsers ChromeHeadless"
             }
 /*   no need to start ng serve for ng e2e
 	    stage ('Start ng serve') {
