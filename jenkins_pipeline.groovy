@@ -1,7 +1,7 @@
 //@Library('github.com/Neutrollized/shared-jenkins-library@master')
 
 //vars
-//if (!env.ANGULARCLI_IMAGE}) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
+if (!env.ANGULARCLI_IMAGE}) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
 if (!env.ANGULARCLI_VER) {env.ANGULARCLI_VER = '1.1.0'}
 // Mandatory Jenkinsfile vars
 //if (!env.BUILD_REPO) {error 'BUILD_REPO must be defined in Jenkinsfile environment.'}
@@ -36,7 +36,7 @@ node('docker') {
             }
         }
 
-	docker.image("neutrollized/chromium-headless-ng:${env.ANGULARCLI_VER}").inside('--privileged -p 9876:9876 -p 49152:49152') {
+	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside('--privileged -p 9876:9876 -p 49152:49152') {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
