@@ -1,7 +1,10 @@
 //@Library('github.com/Neutrollized/shared-jenkins-library@master')
 
 //vars
+if (!env.ANGULARCLI_IMAGE}) {env.ANGULARCLI_IMAGE = 'neutrollized/chromium-headless-ng'}
 if (!env.ANGULARCLI_VER) {env.ANGULARCLI_VER = '1.1.0'}
+if (!env.KARMA_PORT) {env.KARMA_PORT = '-p 9876:9876'}
+if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 // Mandatory Jenkinsfile vars
 //if (!env.BUILD_REPO) {error 'BUILD_REPO must be defined in Jenkinsfile environment.'}
 
@@ -35,11 +38,11 @@ node('docker') {
             }
         }
 
-	docker.image("neutrollized/chromium-headless-ng:${env.ANGULARCLI_VER}").inside('--privileged -p 9876:9876 -p 49152:49152') {
+	docker.image("${env.ANGULARCLI_IMAGE}:${env.ANGULARCLI_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR.PORT}") {
 	    stage ('Compiling project within docker container') {
 	    	sh 'cd test-code/angular-realworld-example-app && npm install && ng build'
 	    }
-	    stage ('Unit test') {
+	    stage ('Karma Unit test') {
 		sh 'npm install karma'
 		sh 'cd test-code/angular-realworld-example-app && ng test --watch=false --browsers ChromeHeadless'
             }
@@ -49,7 +52,7 @@ node('docker') {
             }
 */
             stage ('Parallel testing within docker container') {
-            	parallel "docker e2e test 1": {
+            	parallel "Protractor E2E test": {
                     sh 'cd test-code/angular-realworld-example-app && npm install protractor && ng e2e'
             	},
                 "docker test 2": {
