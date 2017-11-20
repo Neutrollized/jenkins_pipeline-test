@@ -2,7 +2,7 @@
 
 // docker vars
 if (!env.DOCKER_NODEJS) {env.DOCKER_NODEJS = 'neutrollized/chromium-headless-nodejs'}
-if (!env.NODEJS_VER) {env.NODEJS_VER = '6.11.3'}
+if (!env.NODEJS_VER) {env.NODEJS_VER = '6.11.2'}
 if (!env.KARMA_PORT) {env.KARMA_PORT = '-p 9876:9876'}
 if (!env.PROTRACTOR_PORT) {env.PROTRACTOR_PORT = '-p 49152:49152'}
 
