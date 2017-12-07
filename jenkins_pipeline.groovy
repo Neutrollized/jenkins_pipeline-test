@@ -48,46 +48,45 @@ node('docker') {
             }
         }
 
-	docker.image("${env.DOCKER_NODEJS}:${env.NODEJS_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
-	    stage ('Compiling project within docker container') {
-		// npm install will install all the dependencies as defined in packages.json
-		// under the project directory
-		// ng gets installed under node_modules/, so path to ng binary need to be explicit
-		// github.com/angular/angular-cli/issues/503
-	    	sh """
-		    cd ${env.PROJECT_REPO}/${env.PROJECT_DIR}
-                    npm install ${env.NPM_OPTS}
-		    ${env.NG_PATH}/ng --version
-		    ${env.NG_PATH}/ng build ${env.BUILD_OPTS}
-		"""	
-	    }
-	    stage ('Karma Unit test') {
-		sh "npm install ${env.NPM_OPTS} karma"
-		sh """
-		    cd ${env.PROJECT_REPO}/${env.PROJECT_DIR}
-		    ${env.NG_PATH}/ng test --watch=false ${env.TEST_OPTS} --browsers ChromeHeadless
-		"""
-            }
-/*   no need to start ng serve for ng e2e
-	    stage ('Start ng serve') {
-		sh 'cd test-code/angular-realworld-example-app && ng serve --host 0.0.0.0 --disable-host-check &'
-            }
-*/
-            stage ('Parallel testing within docker container') {
-            	parallel "Protractor E2E test": {
-                    sh """
+	stage ('Build & Test') {
+	    docker.image("${env.DOCKER_NODEJS}:${env.NODEJS_VER}").inside("--privileged ${env.KARMA_PORT} ${env.PROTRACTOR_PORT}") {
+	        stage ('Compiling project within docker container') {
+		    // npm install will install all the dependencies as defined in packages.json
+		    // under the project directory
+		    // ng gets installed under node_modules/, so path to ng binary need to be explicit
+		    // github.com/angular/angular-cli/issues/503
+	    	    sh """
 		        cd ${env.PROJECT_REPO}/${env.PROJECT_DIR}
-			npm install ${env.NPM_OPTS} protractor
-			${env.NG_PATH}/ng e2e ${env.E2E_OPTS}
+                        npm install ${env.NPM_OPTS}
+		        ${env.NG_PATH}/ng --version
+		        ${env.NG_PATH}/ng build ${env.BUILD_OPTS}
+		    """	
+	        }
+
+	        stage ('Karma Unit test') {
+		    sh "npm install ${env.NPM_OPTS} karma"
+		    sh """
+		        cd ${env.PROJECT_REPO}/${env.PROJECT_DIR}
+		        ${env.NG_PATH}/ng test --watch=false ${env.TEST_OPTS} --browsers ChromeHeadless
 		    """
-            	},
-                "docker test 2": {
-                    sh 'date'
-            	},
-            	"docker test 3": {
-		    sh 'hostname'
-            	}
-            }
+                }
+
+                stage ('Parallel testing within docker container') {
+            	    parallel "Protractor E2E test": {
+                        sh """
+		            cd ${env.PROJECT_REPO}/${env.PROJECT_DIR}
+			    npm install ${env.NPM_OPTS} protractor
+			    ${env.NG_PATH}/ng e2e ${env.E2E_OPTS}
+		        """
+            	    },
+                    "docker test 2": {
+                        sh 'date'
+            	    },
+            	    "docker test 3": {
+		        sh 'hostname'
+            	    }
+                }
+	    }
 	}
 
         // scripted parallel
